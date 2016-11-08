@@ -3,6 +3,7 @@
 
 var express = require('express');
 var app = express();
+var targetNumber = 7;
 
 
 // MIDDLEWARE
@@ -22,6 +23,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // ROUTES
 // Root Route
+app.get('/', function(req, res){
+  res.sendFile('views/index.html', {root:__dirname});
+});
+app.get('/pickanumber', function (req, res){
+  if (parseInt(req.query.number) === targetNumber) {
+    res.send("Nailed it!");
+  } else if (parseInt(req.query.number) < targetNumber){
+    res.send('Too Low!');
+  } else if (parseInt(req.query.number) > targetNumber){
+    res.send('Too High!');
+  }
+});
+app.post('/pick-a-number', function (req, res){
+  targetNumber=parseInt(req.body.number);
+  res.send('Number successfully updated!');
+});
+
 
 
 // Gallery View Route
